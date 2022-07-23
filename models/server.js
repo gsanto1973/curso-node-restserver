@@ -7,7 +7,9 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
+
         this.usuariosPath = "/api/usuarios";
+        this.authPath = "/api/auth";
 
         // conexión base de datos
         this.conectarDB();
@@ -28,7 +30,7 @@ class Server {
         // CORS
         this.app.use(cors());
 
-        // Lectura y parcero del body
+        // Lectura y parcero del body todo lo que llegue, que sea JSON
         this.app.use(express.json());
 
         // Directorio público
@@ -37,6 +39,7 @@ class Server {
 
     routes() {
 
+        this.app.use(this.authPath, require("../routes/auth"));
         // Utiliza todas las rutas
         this.app.use(this.usuariosPath, require("../routes/usuarios"));
     }
@@ -45,7 +48,7 @@ class Server {
 
         // Lee el valor del puerto configurado en el archivo de variables de ambiente .env
         this.app.listen(this.port, () => {
-            console.log(`Example app listening on port: ${this.port}`)
+            console.log(`App listening on port: ${this.port}`)
         })
     }
 }
