@@ -10,7 +10,7 @@ const usuariosGet = async (req = request, res = response) => {
     const query = { estado: true };
 
     const [total, usuarios] = await Promise.all([
-        Usuario.count(query),
+        Usuario.countDocuments(query),
         Usuario.find(query)
             .skip(Number(desde))
             .limit(Number(limite))
@@ -36,7 +36,6 @@ const usuariosPost = async (req, res = response) => {
     await usuario.save();
 
     res.json({
-        "msg": "Hola Giordano, post API - Controller",
         usuario
     });
 }
